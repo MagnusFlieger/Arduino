@@ -3,8 +3,12 @@
 // INCLUDES
 #include <Servo.h>
 
-
-Servo myservo;  // create servo object to control a servo
+// SERVOS
+Servo throttle;
+Servo rotatingFront;
+Servo rotatingBack;
+Servo leftRight;
+Servo upDown;
 
 int pos = 90;    // variable to store the servo position
 int ByteReceived;
@@ -12,9 +16,9 @@ int Change = 0;
 
 
 void setup() {
-  myservo.attach(9);  // attaches the servo on pin 9 to the servo object
+  throttle.attach(9);  // attaches the servo on pin 9 to the servo object
   Serial.begin(9600);
-  myservo.write(pos);
+  throttle.write(pos);
 }
 
 
@@ -23,7 +27,7 @@ void loop() {
     ByteReceived = Serial.read();
     Serial.print(ByteReceived);
   }
-  myservo.write(ByteReceived);
+  throttle.write(ByteReceived);
   delay(1000);
   ByteReceived = 0;
 }
