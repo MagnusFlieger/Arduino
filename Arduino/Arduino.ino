@@ -10,9 +10,8 @@ Servo rotatingBack;
 Servo leftRight;
 Servo upDown;
 
-int pos = 90;    // variable to store the servo position
-int ByteReceived;
-int Change = 0;
+int pos = 90;       // variable to store the servo position
+int ByteReceived;   // store byte recieved via serial
 
 
 void setup() {
