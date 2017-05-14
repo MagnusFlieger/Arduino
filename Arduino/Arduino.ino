@@ -11,22 +11,42 @@ Servo leftRight;
 Servo upDown;
 
 // VARIABLES
-int pos = 90;       // variable to store the servo position
+int pos1 = 90;
+int pos2 = 90;
+int pos3 = 90;
+int pos4 = 90;
+int pos5 = 90;
 int ByteReceived;   // store byte recieved via serial
 
 // INITIALIZE
 void setup() {
-  throttle.attach(9);  // attaches the servo on pin 9 to the servo object
+  // Set up all servos
+  throttle.attach(9);
+  rotatingFront.attach(10);
+  rotatingBack.attach(11);
+  leftRight.attach(12);
+  upDown.attach(13);
+
+  // Begin Serial
   Serial.begin(9600);
-  throttle.write(pos);
+
+  // Write default values to the servos
+  throttle.write(pos1);
+  rotatingFront.write(pos2);
+  rotatingBack.write(pos3);
+  leftRight.write(pos4);
+  upDown.write(pos5);
 }
 
 // UPDATE
 void loop() {
+  // Read information from Serial
   if (Serial.read() != -1) {
     ByteReceived = Serial.read();
     Serial.print(ByteReceived);
   }
+
+  // Write new positions
   throttle.write(ByteReceived);
   delay(1000);
   ByteReceived = 0;
