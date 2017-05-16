@@ -12,9 +12,10 @@ void setup() {
 }
 
 void loop() {
-  if (Serial.read() != -1) {
-    ByteReceived = Serial.read();
-    Serial.print(ByteReceived);
+  int Read = Serial.read();
+  if (Read != -1) {
+    ByteReceived = Read;
+    Serial.print(Read);
   }
   myservo.write(ByteReceived);
   delay(1000);
