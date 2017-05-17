@@ -41,8 +41,9 @@ void setup() {
 // UPDATE
 void loop() {
   // Read information from Serial
-  if (Serial.read() != -1) {
-    ByteReceived = Serial.read();
+  int Read = Serial.read();
+  if (Read != -1) {
+    ByteReceived = Read;
     Serial.print(ByteReceived);
   }
 
@@ -50,4 +51,7 @@ void loop() {
   throttle.write(ByteReceived);
   delay(1000);
   ByteReceived = 0;
+
+  // Send information to Serial
+  
 }
