@@ -11,11 +11,13 @@ Servo leftRight;
 Servo upDown;
 
 // VARIABLES
-int pos1 = 90;
-int pos2 = 90;
-int pos3 = 90;
-int pos4 = 90;
-int pos5 = 90;
+// Default positions for servos
+int pos1 = 0;
+int pos2 = 0;
+int pos3 = 0;
+int pos4 = 0;
+int pos5 = 0;
+
 int ByteReceived;   // store byte recieved via serial
 
 // INITIALIZE
@@ -40,18 +42,51 @@ void setup() {
 
 // UPDATE
 void loop() {
-  // Read information from Serial
+  // Get information from Serial
+  // First byte: Servo to write to
+  // Second byte: Value to write
+  //bool success = true;
   int Read = Serial.read();
-  if (Read != -1) {
-    ByteReceived = Read;
-    Serial.print(ByteReceived);
-  }
+  switch (Read) {
+    case 1:
+      // Throttle
+      int newPosition = Serial.read()
+      pos1 = newPosition;
+      throttle.write(pos1);
+      break;
+    case 2:
+      // Rotating Front
+      int newPosition = Serial.read()
+      pos2 = newPosition;
+      rotatingFront.write(pos2);
+      break;
+    case 3:
+      // Rotating Back
+      int newPosition = Serial.read()
+      pos3 = newPosition;
+      rotatingBack.write(pos3);
+      break;
+    case 4:
+      // Left-Right
+      int newPosition = Serial.read()
+      pos4 = newPosition;
+      leftRight.write(pos4);
+      break;
+    case 5:
+      // Up-Down
+      int newPosition = Serial.read()
+      pos5 = newPosition;
+      upDown.write(pos);
+      break;
 
-  // Write new positions
-  throttle.write(ByteReceived);
-  delay(1000);
-  ByteReceived = 0;
+    default: 
+      // if nothing else matches, do the default
+      // default is optional
+    break;
+  }
 
   // Send information to Serial
   
+  // Delay
+  delay(1000);
 }
