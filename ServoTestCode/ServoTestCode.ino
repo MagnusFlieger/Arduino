@@ -2,7 +2,6 @@
 Servo myservo;  // create servo object to control a servo
 
 int pos = 90;    // variable to store the servo position
-int ByteReceived;
 int Change = 0;
 
 void setup() {
@@ -13,11 +12,10 @@ void setup() {
 
 void loop() {
   int Read = Serial.read();
+  // When Serial.read() equals -1, then no data has been transferred
   if (Read != -1) {
-    ByteReceived = Read;
     Serial.print(Read);
+    myservo.write(Read);
   }
-  myservo.write(ByteReceived);
-  delay(1000);
-  ByteReceived = 0;
+  delay(100);
 }
