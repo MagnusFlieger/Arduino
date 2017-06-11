@@ -10,6 +10,9 @@ Servo rotatingBack;
 Servo leftRight;
 Servo upDown;
 
+// SENSORS
+// Nothing here yet
+
 // VARIABLES
 // Default positions for servos
 int pos1 = 0;
@@ -19,6 +22,8 @@ int pos4 = 0;
 int pos5 = 0;
 
 int ByteReceived;   // store byte recieved via serial
+
+char statusReport = 'A'; // one-byte status report to controller
 
 // INITIALIZE
 void setup() {
@@ -42,51 +47,84 @@ void setup() {
 
 // UPDATE
 void loop() {
+  // Get information from the sensors
+  // Nothing here yet
+
+  // Process information from the sensors
+  // Nothing here yet
+  
   // Get information from Serial
   // First byte: Servo to write to
   // Second byte: Value to write
   //bool success = true;
-  int Read = Serial.read();
-  switch (Read) {
-    case 1:
-      // Throttle
-      int newPosition = Serial.read()
-      pos1 = newPosition;
-      throttle.write(pos1);
-      break;
-    case 2:
-      // Rotating Front
-      int newPosition = Serial.read()
-      pos2 = newPosition;
-      rotatingFront.write(pos2);
-      break;
-    case 3:
-      // Rotating Back
-      int newPosition = Serial.read()
-      pos3 = newPosition;
-      rotatingBack.write(pos3);
-      break;
-    case 4:
-      // Left-Right
-      int newPosition = Serial.read()
-      pos4 = newPosition;
-      leftRight.write(pos4);
-      break;
-    case 5:
-      // Up-Down
-      int newPosition = Serial.read()
-      pos5 = newPosition;
-      upDown.write(pos);
-      break;
+//  int Read = Serial.read();
+//  int newPosition = 0;
+//  switch (Read) {
+//    case 1:
+//      // Throttle
+//      newPosition = Serial.read();
+//      pos1 = newPosition;
+//      throttle.write(pos1);
+//      break;
+//    case 2:
+//      // Rotating Front
+//      newPosition = Serial.read();
+//      pos2 = newPosition;
+//      rotatingFront.write(pos2);
+//      break;
+//    case 3:
+//      // Rotating Back
+//      newPosition = Serial.read();
+//      pos3 = newPosition;
+//      rotatingBack.write(pos3);
+//      break;
+//    case 4:
+//      // Left-Right
+//      newPosition = Serial.read();
+//      pos4 = newPosition;
+//      leftRight.write(pos4);
+//      break;
+//    case 5:
+//      // Up-Down
+//      newPosition = Serial.read();
+//      pos5 = newPosition;
+//      upDown.write(pos5);
+//      break;
+//
+//    default:
+//      // if nothing else matches, do the default
+//      // default is optional
+//      break;
+//  }
 
-    default: 
-      // if nothing else matches, do the default
-      // default is optional
-    break;
-  }
+  // Get information from Serial
+  int Read = 0;
+  Read = Serial.read();
+  pos1 = Read;
+  Read = Serial.read();
+  pos2 = Read;
+  Read = Serial.read();
+  pos3 = Read;
+  Read = Serial.read();
+  pos4 = Read;
+  Read = Serial.read();
+  pos5 = Read;
+
+  // Update Servo positions
+  throttle.write(pos1);
+  rotatingFront.write(pos2);
+  rotatingBack.write(pos3);
+  leftRight.write(pos4);
+  upDown.write(pos5);
 
   // Send information to Serial
-  
+  Serial.write(statusReport);
+  Serial.write(pos1);
+  Serial.write(pos2);
+  Serial.write(pos3);
+  Serial.write(pos4);
+  Serial.write(pos5);
+
   // Delay
   delay(1000);
 }
