@@ -126,5 +126,5 @@ void loop() {
   Serial.write(pos5);
 
   // Delay
-  delay(1000);
+  delay(100);
 }
