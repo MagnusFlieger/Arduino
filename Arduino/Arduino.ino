@@ -4,11 +4,11 @@
 #include <Servo.h>
 
 // SERVOS
-Servo throttle;
-Servo rotatingFront;
-Servo rotatingBack;
-Servo leftRight;
-Servo upDown;
+Servo throttle;       // Speed
+Servo rotatingFront;  // cylinder at the front
+Servo rotatingBack;   // cylinder at the back
+Servo leftRight;      // left-right
+Servo upDown;         // up-down
 
 // SENSORS
 // Nothing here yet
@@ -24,6 +24,19 @@ int pos5 = 0;
 int ByteReceived;   // store byte recieved via serial
 
 char statusReport = 'A'; // one-byte status report to controller
+
+bool batteryLow = false;
+bool batteryOk = true;
+bool motorOk = true;
+bool servosOk = true;
+bool sensorsOk = true;
+bool arduinoOk = true;
+
+// CONSTANTS
+
+const int LOOP_DELAY = 100;
+
+
 
 // INITIALIZE
 void setup() {
@@ -98,6 +111,12 @@ void loop() {
 //  }
 
   // Get information from Serial
+
+  // Check if the information is even complete/correct
+
+  // Check if there are any commands to execute
+
+  // Read servo inputs
   int Read = 0;
   Read = Serial.read();
   pos1 = Read;
@@ -126,5 +145,5 @@ void loop() {
   Serial.write(pos5);
 
   // Delay
-  delay(100);
+  delay(LOOP_DELAY);
 }
