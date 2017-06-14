@@ -48,11 +48,11 @@ const int UD_PIN = 13;
 // INITIALIZE
 void setup() {
   // Set up all servos
-  throttle.attach(9);
-  rotatingFront.attach(10);
-  rotatingBack.attach(11);
-  leftRight.attach(12);
-  upDown.attach(13);
+  throttle.attach(THROTTLE_PIN);
+  rotatingFront.attach(FRONT_PIN);
+  rotatingBack.attach(BACK_PIN);
+  leftRight.attach(LR_PIN);
+  upDown.attach(UD_PIN);
 
   // Begin Serial
   Serial.begin(9600);
