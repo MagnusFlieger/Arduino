@@ -63,6 +63,9 @@ void setup() {
   rotatingBack.write(pos3);
   leftRight.write(pos4);
   upDown.write(pos5);
+
+  // Set up LED
+  // Nothing here yet
 }
 
 // UPDATE
