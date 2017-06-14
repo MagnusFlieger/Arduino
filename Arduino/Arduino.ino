@@ -36,6 +36,13 @@ bool arduinoOk = true;
 
 const int LOOP_DELAY = 100;
 
+const int LED_PIN = 5;
+const int THROTTLE_PIN = 9;
+const int FRONT_PIN = 10;
+const int BACK_PIN = 11;
+const int LR_PIN = 12;
+const int UD_PIN = 13;
+
 
 
 // INITIALIZE
