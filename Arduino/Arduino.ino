@@ -158,6 +158,9 @@ void loop() {
   Serial.write(pos4);
   Serial.write(pos5);
 
+  // Update LEDs
+  // Nothing here yet
+
   // Delay
   delay(LOOP_DELAY);
 }
