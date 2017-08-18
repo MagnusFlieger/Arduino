@@ -123,7 +123,7 @@ void loop() {
   // Get information from Serial
   int availableBytes = Serial.available();
   
-  byte[] buff;
+  //byte[] buff;
   //Serial.readBytes(buff, 
 
   // Check if the information is even complete/correct
