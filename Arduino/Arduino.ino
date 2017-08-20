@@ -25,8 +25,8 @@ int ByteReceived;   // store byte recieved via serial
 
 char statusReport = 'A'; // one-byte status report to controller
 
-bool sensorReportingOn = false;
-bool fligthRecorderOn = false;
+bool sensorReportingOn = false;   // stores whether the sensor reporting feature is on
+bool flightRecorderOn = false;    // stores whether the Arduino should record flight data
 
 bool batteryLow = false;
 bool batteryOk = true;
@@ -37,8 +37,9 @@ bool arduinoOk = true;
 
 // CONSTANTS
 
-const int LOOP_DELAY = 100;
+const int LOOP_DELAY = 100;       // Delay of the loop cycle in milliseconds
 
+//   Pins
 const int LED_PIN = 5;
 const int THROTTLE_PIN = 9;
 const int FRONT_PIN = 10;
@@ -82,10 +83,11 @@ void loop() {
   // Get information from Serial
   if( Serial.available() > 0 )
   {
+    // Loop through all bytes available
+    char Read = '0';
     for ( int currentByte = 0; currentByte < Serial.available(); currentByte++ )
     {
-      char Read = Serial.read();
-      int newPosition = 0;
+      Read = Serial.read();
       switch (Read) 
       {
         // CONTROL SERVOS
@@ -149,15 +151,20 @@ void loop() {
   leftRight.write(pos4);
   upDown.write(pos5);
 
-  // Send information to Serial
+  // Send status to Serial
   Serial.write(statusReport);
-  Serial.write(pos1);
-  Serial.write(pos2);
-  Serial.write(pos3);
-  Serial.write(pos4);
-  Serial.write(pos5);
 
-  
+  // Send sensor data to serial
+  if ( sensorReportingOn )
+  {
+    // Nothing here yet
+  }
+
+  // Record flight data
+  if ( flightRecorderOn )
+  {
+    // Nothing here yet
+  }
 
   // Update LEDs
   // Nothing here yet
