@@ -25,6 +25,9 @@ int ByteReceived;   // store byte recieved via serial
 
 char statusReport = 'A'; // one-byte status report to controller
 
+bool sensorReportingOn = false;
+bool fligthRecorderOn = false;
+
 bool batteryLow = false;
 bool batteryOk = true;
 bool motorOk = true;
@@ -77,72 +80,68 @@ void loop() {
   // Nothing here yet
   
   // Get information from Serial
-  // First byte: Servo to write to
-  // Second byte: Value to write
-  //bool success = true;
-//  int Read = Serial.read();
-//  int newPosition = 0;
-//  switch (Read) {
-//    case 1:
-//      // Throttle
-//      newPosition = Serial.read();
-//      pos1 = newPosition;
-//      throttle.write(pos1);
-//      break;
-//    case 2:
-//      // Rotating Front
-//      newPosition = Serial.read();
-//      pos2 = newPosition;
-//      rotatingFront.write(pos2);
-//      break;
-//    case 3:
-//      // Rotating Back
-//      newPosition = Serial.read();
-//      pos3 = newPosition;
-//      rotatingBack.write(pos3);
-//      break;
-//    case 4:
-//      // Left-Right
-//      newPosition = Serial.read();
-//      pos4 = newPosition;
-//      leftRight.write(pos4);
-//      break;
-//    case 5:
-//      // Up-Down
-//      newPosition = Serial.read();
-//      pos5 = newPosition;
-//      upDown.write(pos5);
-//      break;
-//
-//    default:
-//      // if nothing else matches, do the default
-//      // default is optional
-//      break;
-//  }
-
-  // Get information from Serial
-  int availableBytes = Serial.available();
+  if( Serial.available() > 0 )
+  {
+    for ( int currentByte = 0; currentByte < Serial.available(); currentByte++ )
+    {
+      char Read = Serial.read();
+      int newPosition = 0;
+      switch (Read) 
+      {
+        // CONTROL SERVOS
+        case 'A':
+          // Throttle
+          pos1 = Serial.peek();
+          throttle.write(pos1);
+          break;
+        case 'B':
+          // Rotating Front
+          pos2 = Serial.peek();
+          rotatingFront.write(pos2);
+          break;
+        case 'C':
+          // Rotating Back
+          pos3 = Serial.peek();
+          rotatingBack.write(pos3);
+          break;
+        case 'D':
+          // Left-Right
+          pos4 = Serial.peek();
+          leftRight.write(pos4);
+          break;
+        case 'E':
+          // Up-Down
+          pos5 = Serial.peek();
+          upDown.write(pos5);
+          break;
+        
+        // OTHER COMMANDS
+        case 'X':
+          // Reset and initialize everything
+          break;
+        case 'S':
+          // Turn on Self-stabilizing
+          break;
+        case 's':
+          // Turn off Self-stabilizing
+          break;
+        case 'G':
+          // Turn on Sensor
+          break;
+        case 'g':
+          // Turn off Sensor
+          break;
+        case 'Z':
+          // Emergency
+          break;
+        default:
+          // if nothing else matches, do the default
+          // default is optional
+          break;
+      }
+    }
+  }
   
-  //byte[] buff;
-  //Serial.readBytes(buff, 
-
-  // Check if the information is even complete/correct
-
-  // Check if there are any commands to execute
-
-  // Read servo inputs
-  int Read = 0;
-  Read = Serial.read();
-  pos1 = Read;
-  Read = Serial.read();
-  pos2 = Read;
-  Read = Serial.read();
-  pos3 = Read;
-  Read = Serial.read();
-  pos4 = Read;
-  Read = Serial.read();
-  pos5 = Read;
-
   // Update Servo positions
   throttle.write(pos1);
   rotatingFront.write(pos2);
@@ -157,6 +156,8 @@ void loop() {
   Serial.write(pos3);
   Serial.write(pos4);
   Serial.write(pos5);
+
+  
 
   // Update LEDs
   // Nothing here yet
