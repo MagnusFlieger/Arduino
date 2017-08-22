@@ -48,18 +48,31 @@ const int LR_PIN        = 12;
 const int UD_PIN        = 13;
 
 //   Bytes
+//    Recieving prefixes
 const char THROTTLE_PREFIX  = 'A';
 const char FRONT_PREFIX     = 'B';
 const char BACK_PREFIX      = 'C';
 const char LR_PREFIX        = 'D';
 const char UD_PREFIX        = 'E';
 
+//    Sending prefixes
+const char MPU_X_PREFIX             = 'J';
+const char MPU_Y_PREFIX             = 'K';
+const char MPU_Z_PREFIX             = 'L';
+
+//    Recieving commands
 const char RESET_COMMAND            = 'X';
 const char STABILIZING_ON_COMMAND   = 'S';
 const char STABILIZING_OFF_COMMAND  = 's';
 const char SENSORS_ON_COMMAND       = 'G';
 const char SENSORS_OFF_COMMAND      = 'g';
 const char EMERGENCY_COMMAND        = 'Z';
+
+//    Sending commands
+const char STABILIZING_ON_CONFIRM   = 'H';
+const char STABILIZING_OFF_CONFIRM  = 'h';
+const char SENSORS_ON_CONFIRM       = 'I';
+const char SENSORS_OFF_CONFIRM      = 'i';
 
 
 
