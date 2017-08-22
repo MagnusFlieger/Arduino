@@ -25,6 +25,7 @@ int ByteReceived;   // store byte recieved via serial
 
 char statusReport = 'A'; // one-byte status report to controller
 
+bool stabilizingOn = false;       // stores wheter self-stabilizing is on.
 bool sensorReportingOn = false;   // stores whether the sensor reporting feature is on
 bool flightRecorderOn = false;    // stores whether the Arduino should record flight data
 
@@ -49,11 +50,11 @@ const int UD_PIN        = 13;
 
 //   Bytes
 //    Recieving prefixes
-const char THROTTLE_PREFIX  = 'A';
-const char FRONT_PREFIX     = 'B';
-const char BACK_PREFIX      = 'C';
-const char LR_PREFIX        = 'D';
-const char UD_PREFIX        = 'E';
+const char THROTTLE_PREFIX          = 'A';
+const char FRONT_PREFIX             = 'B';
+const char BACK_PREFIX              = 'C';
+const char LR_PREFIX                = 'D';
+const char UD_PREFIX                = 'E';
 
 //    Sending prefixes
 const char MPU_X_PREFIX             = 'J';
@@ -66,6 +67,8 @@ const char STABILIZING_ON_COMMAND   = 'S';
 const char STABILIZING_OFF_COMMAND  = 's';
 const char SENSORS_ON_COMMAND       = 'G';
 const char SENSORS_OFF_COMMAND      = 'g';
+const char FLIGHT_REC_ON_COMMAND    = 'R';
+const char FLIGHT_REC_OFF_COMMAND   = 'r';
 const char EMERGENCY_COMMAND        = 'Z';
 
 //    Sending commands
@@ -73,7 +76,8 @@ const char STABILIZING_ON_CONFIRM   = 'H';
 const char STABILIZING_OFF_CONFIRM  = 'h';
 const char SENSORS_ON_CONFIRM       = 'I';
 const char SENSORS_OFF_CONFIRM      = 'i';
-
+const char FLIGHT_REC_ON_CONFIRM    = 'O';
+const char FLIGHT_REC_OFF_CONFIRM   = 'o';
 
 
 // INITIALIZE
@@ -118,49 +122,58 @@ void loop() {
       switch (Read) 
       {
         // CONTROL SERVOS
-        case 'A':
+        case THROTTLE_PREFIX:
           // Throttle
           pos1 = Serial.peek();
           throttle.write(pos1);
           break;
-        case 'B':
+        case FRONT_PREFIX:
           // Rotating Front
           pos2 = Serial.peek();
           rotatingFront.write(pos2);
           break;
-        case 'C':
+        case BACK_PREFIX:
           // Rotating Back
           pos3 = Serial.peek();
           rotatingBack.write(pos3);
           break;
-        case 'D':
+        case LR_PREFIX:
           // Left-Right
           pos4 = Serial.peek();
           leftRight.write(pos4);
           break;
-        case 'E':
+        case UD_PREFIX:
           // Up-Down
           pos5 = Serial.peek();
           upDown.write(pos5);
           break;
         
         // OTHER COMMANDS
-        case 'X':
+        case RESET_COMMAND:
           // Reset and initialize everything
           break;
-        case 'S':
+        case STABILIZING_ON_COMMAND:
           // Turn on Self-stabilizing
+          stabilizingOn = true;
+          ser.write(STABILIZING_ON_CONFIRM)
           break;
-        case 's':
+        case STABILIZING_OFF_COMMAND:
           // Turn off Self-stabilizing
+          stabilizingOn = false;
+          ser.write(STABILIZING_OFF_CONFIRM)
           break;
-        case 'G':
+        case SENSORS_ON_COMMAND:
           // Turn on Sensor
+          sensorReportingOn = true;
+          ser.write(SENSORS_ON_CONFIRM)
           break;
-        case 'g':
+        case SENSORS_OFF_COMMAND:
           // Turn off Sensor
+          sensorReportingOn = false;
+          ser.write(SENSORS_OFF_CONFIRM)
           break;
-        case 'Z':
+        
+        case EMERGENCY_COMMAND:
           // Emergency
           break;
         default:
