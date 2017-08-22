@@ -2,6 +2,7 @@
 
 // INCLUDES
 #include <Servo.h>
+#include <Wire.h>
 
 // SERVOS
 Servo throttle;       // Speed
@@ -12,6 +13,8 @@ Servo upDown;         // up-down
 
 // SENSORS
 // Nothing here yet
+long gyroX, gyroY, gyroZ;
+float rotX, rotY, rotZ;
 
 // VARIABLES
 // Default positions for servos
@@ -20,6 +23,12 @@ int pos2 = 0;
 int pos3 = 0;
 int pos4 = 0;
 int pos5 = 0;
+
+//orientation of MPU
+
+int prevX = 0;
+int prevY = 0;
+int prevZ = 0;
 
 int ByteReceived;   // store byte recieved via serial
 
@@ -89,6 +98,10 @@ void setup() {
   leftRight.attach(LR_PIN);
   upDown.attach(UD_PIN);
 
+  // Set up MPU
+  setupMPU();
+  // Calibrate sensors
+  calibrateMPU();
   // Begin Serial
   Serial.begin(9600);
 
@@ -107,7 +120,14 @@ void setup() {
 void loop() {
   // Get information from the sensors
   // Nothing here yet
-
+  recordGyroData();
+  processGyroData();
+  if(prevX - rotX > 5 || prevX - rotX < -5 || prevY - rotY > 5 || prevY - rotY < -5 || prevZ - rotZ > 5 || prevZ - rotZ < -5){
+    prevX = rotX;
+    prevY = rotY;
+    prevZ = rotZ;
+    //serial Send info??
+  }
   // Process information from the sensors
   // Nothing here yet
   
@@ -212,3 +232,42 @@ void loop() {
   // Delay
   delay(LOOP_DELAY);
 }
+
+
+void setupMPU(){
+  Wire.beginTransmission(0b1101000); //Beginn Transmission to MPU I2C address
+  Wire.write(0x6B); //open PWR_MGMT register
+  Wire.write(0b00000000); //Deactivating SLEEP-MODE in PWR_MGMT
+  Wire.endTransmission();
+  Wire.beginTransmission(0b1101000);
+  Wire.write(0x1B); //Open Gzro register
+  Wire.write(0x00000000); //Setting the gyro scale +/- 250deg./s 
+  Wire.endTransmission();
+}
+
+void calibrateMPU(){
+  recordGyroData();
+  prevX = gyroX;
+  prevY = gyroY;
+  prevZ = gyroZ;
+}
+
+
+void recordGyroData() {
+  Wire.beginTransmission(0b1101000); //I2C address of the MPU
+  Wire.write(0x43); //Starting register for Gyro Readings
+  Wire.endTransmission();
+  Wire.requestFrom(0b1101000,6); //Request Gyro Registers (43 - 48)
+  while(Wire.available() < 6);
+  gyroX = Wire.read()<<8|Wire.read(); //Store first two bytes into accelX
+  gyroY = Wire.read()<<8|Wire.read(); //Store middle two bytes into accelY
+  gyroZ = Wire.read()<<8|Wire.read(); //Store last two bytes into accelZ
+  processGyroData();
+}
+
+void processGyroData() {
+  rotX = gyroX / 131.0;
+  rotY = gyroY / 131.0; 
+  rotZ = gyroZ / 131.0;
+}
+
