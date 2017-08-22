@@ -40,12 +40,26 @@ bool arduinoOk = true;
 const int LOOP_DELAY = 100;       // Delay of the loop cycle in milliseconds
 
 //   Pins
-const int LED_PIN = 5;
-const int THROTTLE_PIN = 9;
-const int FRONT_PIN = 10;
-const int BACK_PIN = 11;
-const int LR_PIN = 12;
-const int UD_PIN = 13;
+const int LED_PIN       = 5;
+const int THROTTLE_PIN  = 9;
+const int FRONT_PIN     = 10;
+const int BACK_PIN      = 11;
+const int LR_PIN        = 12;
+const int UD_PIN        = 13;
+
+//   Bytes
+const char THROTTLE_PREFIX  = 'A';
+const char FRONT_PREFIX     = 'B';
+const char BACK_PREFIX      = 'C';
+const char LR_PREFIX        = 'D';
+const char UD_PREFIX        = 'E';
+
+const char RESET_COMMAND            = 'X';
+const char STABILIZING_ON_COMMAND   = 'S';
+const char STABILIZING_OFF_COMMAND  = 's';
+const char SENSORS_ON_COMMAND       = 'G';
+const char SENSORS_OFF_COMMAND      = 'g';
+const char EMERGENCY_COMMAND        = 'Z';
 
 
 
