@@ -88,8 +88,8 @@ const char FLIGHT_REC_ON_CONFIRM    = 'O';
 const char FLIGHT_REC_OFF_CONFIRM   = 'o';
 
 //   MPU constants
-const char MPU_POSITIVE_THRESHOLD   = 5;
-const char MPU_NEGATIVE_THRESHOLD   = -5;
+const char MPU_POSITIVE_THRESHOLD   = 3;
+const char MPU_NEGATIVE_THRESHOLD   = -3;
 
 
 // INITIALIZE
@@ -126,21 +126,6 @@ void loop() {
   // Get information from the sensors
   recordGyroData();
 
-  //Serial.write("processed");
-  if( prevX - rotX > MPU_POSITIVE_THRESHOLD || prevX - rotX < MPU_NEGATIVE_THRESHOLD || 
-      prevY - rotY > MPU_POSITIVE_THRESHOLD || prevY - rotY < MPU_NEGATIVE_THRESHOLD || 
-      prevZ - rotZ > MPU_POSITIVE_THRESHOLD || prevZ - rotZ < MPU_NEGATIVE_THRESHOLD )
-  {
-    prevX = rotX;
-    prevY = rotY;
-    prevZ = rotZ;
-    Serial.write(MPU_X_PREFIX);
-    Serial.write(int(rotX));
-    Serial.write(MPU_Y_PREFIX);
-    Serial.write(int(rotY));
-    Serial.write(MPU_Z_PREFIX);
-    Serial.write(int(rotZ));
-  }
   // Process information from the sensors
   // Nothing here yet
   
@@ -216,13 +201,6 @@ void loop() {
       }
     }
   }
-  
-  // Update Servo positions
-  throttle.write(pos1);
-  rotatingFront.write(pos2);
-  rotatingBack.write(pos3);
-  leftRight.write(pos4);
-  upDown.write(pos5);
 
   // Send status to Serial
   Serial.write(statusReport);
@@ -230,7 +208,20 @@ void loop() {
   // Send sensor data to serial
   if ( sensorReportingOn )
   {
-    // Nothing here yet
+    if( prevX - rotX > MPU_POSITIVE_THRESHOLD || prevX - rotX < MPU_NEGATIVE_THRESHOLD || 
+        prevY - rotY > MPU_POSITIVE_THRESHOLD || prevY - rotY < MPU_NEGATIVE_THRESHOLD || 
+        prevZ - rotZ > MPU_POSITIVE_THRESHOLD || prevZ - rotZ < MPU_NEGATIVE_THRESHOLD )
+    {
+      prevX = rotX;
+      prevY = rotY;
+      prevZ = rotZ;
+      Serial.write(MPU_X_PREFIX);
+      Serial.write(int(rotX));
+      Serial.write(MPU_Y_PREFIX);
+      Serial.write(int(rotY));
+      Serial.write(MPU_Z_PREFIX);
+      Serial.write(int(rotZ));
+    }
   }
 
   // Record flight data
