@@ -87,6 +87,10 @@ const char SENSORS_OFF_CONFIRM      = 'i';
 const char FLIGHT_REC_ON_CONFIRM    = 'O';
 const char FLIGHT_REC_OFF_CONFIRM   = 'o';
 
+//   MPU constants
+const char MPU_POSITIVE_THRESHOLD   = 5;
+const char MPU_NEGATIVE_THRESHOLD   = -5;
+
 
 // INITIALIZE
 void setup() {
@@ -123,7 +127,9 @@ void loop() {
   recordGyroData();
 
   //Serial.write("processed");
-  if(prevX - rotX > 5 || prevX - rotX < -5 || prevY - rotY > 5 || prevY - rotY < -5 || prevZ - rotZ > 5 || prevZ - rotZ < -5)
+  if( prevX - rotX > MPU_POSITIVE_THRESHOLD || prevX - rotX < MPU_NEGATIVE_THRESHOLD || 
+      prevY - rotY > MPU_POSITIVE_THRESHOLD || prevY - rotY < MPU_NEGATIVE_THRESHOLD || 
+      prevZ - rotZ > MPU_POSITIVE_THRESHOLD || prevZ - rotZ < MPU_NEGATIVE_THRESHOLD )
   {
     prevX = rotX;
     prevY = rotY;
