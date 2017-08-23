@@ -91,6 +91,7 @@ const char FLIGHT_REC_OFF_CONFIRM   = 'o';
 
 // INITIALIZE
 void setup() {
+  Serial.begin(9600);
   // Set up all servos
   throttle.attach(THROTTLE_PIN);
   rotatingFront.attach(FRONT_PIN);
@@ -98,12 +99,15 @@ void setup() {
   leftRight.attach(LR_PIN);
   upDown.attach(UD_PIN);
 
+  Serial.write("asdf");
   // Set up MPU
   setupMPU();
+  Serial.write("setupped");
   // Calibrate sensors
   calibrateMPU();
+  Serial.write("calibrated");
   // Begin Serial
-  Serial.begin(9600);
+  //Serial.begin(9600);
 
   // Write default values to the servos
   throttle.write(pos1);
@@ -122,6 +126,7 @@ void loop() {
   // Nothing here yet
   recordGyroData();
   processGyroData();
+  Serial.write("processed");
   if(prevX - rotX > 5 || prevX - rotX < -5 || prevY - rotY > 5 || prevY - rotY < -5 || prevZ - rotZ > 5 || prevZ - rotZ < -5){
     prevX = rotX;
     prevY = rotY;
@@ -263,6 +268,7 @@ void recordGyroData() {
   gyroY = Wire.read()<<8|Wire.read(); //Store middle two bytes into accelY
   gyroZ = Wire.read()<<8|Wire.read(); //Store last two bytes into accelZ
   processGyroData();
+  Serial.write("processed");
 }
 
 void processGyroData() {
