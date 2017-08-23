@@ -175,22 +175,22 @@ void loop() {
         case STABILIZING_ON_COMMAND:
           // Turn on Self-stabilizing
           stabilizingOn = true;
-          ser.write(STABILIZING_ON_CONFIRM)
+          Serial.write(STABILIZING_ON_CONFIRM);
           break;
         case STABILIZING_OFF_COMMAND:
           // Turn off Self-stabilizing
           stabilizingOn = false;
-          ser.write(STABILIZING_OFF_CONFIRM)
+          Serial.write(STABILIZING_OFF_CONFIRM);
           break;
         case SENSORS_ON_COMMAND:
           // Turn on Sensor
           sensorReportingOn = true;
-          ser.write(SENSORS_ON_CONFIRM)
+          Serial.write(SENSORS_ON_CONFIRM);
           break;
         case SENSORS_OFF_COMMAND:
           // Turn off Sensor
           sensorReportingOn = false;
-          ser.write(SENSORS_OFF_CONFIRM)
+          Serial.write(SENSORS_OFF_CONFIRM);
           break;
         
         case EMERGENCY_COMMAND:
@@ -240,7 +240,7 @@ void setupMPU(){
   Wire.write(0b00000000); //Deactivating SLEEP-MODE in PWR_MGMT
   Wire.endTransmission();
   Wire.beginTransmission(0b1101000);
-  Wire.write(0x1B); //Open Gzro register
+  Wire.write(0x1B); //Open Gyro register
   Wire.write(0x00000000); //Setting the gyro scale +/- 250deg./s 
   Wire.endTransmission();
 }
