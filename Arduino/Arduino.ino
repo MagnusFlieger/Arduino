@@ -91,6 +91,7 @@ const char FLIGHT_REC_OFF_CONFIRM   = 'o';
 // INITIALIZE
 void setup() {
   Serial.begin(9600);
+  
   // Set up all servos
   throttle.attach(THROTTLE_PIN);
   rotatingFront.attach(FRONT_PIN);
@@ -100,12 +101,10 @@ void setup() {
 
   // Set up MPU
   setupMPU();
-  Serial.write("setupped");
+  //Serial.write("setupped");
   // Calibrate sensors
   calibrateMPU();
-  Serial.write("calibrated");
-  // Begin Serial
-  //Serial.begin(9600);
+  //Serial.write("calibrated");
 
   // Write default values to the servos
   throttle.write(pos1);
@@ -122,7 +121,7 @@ void setup() {
 void loop() {
   // Get information from the sensors
   recordGyroData();
-  //processGyroData();
+
   //Serial.write("processed");
   if(prevX - rotX > 5 || prevX - rotX < -5 || prevY - rotY > 5 || prevY - rotY < -5 || prevZ - rotZ > 5 || prevZ - rotZ < -5)
   {
@@ -241,7 +240,7 @@ void loop() {
   delay(LOOP_DELAY);
 }
 
-
+// Sets up the Gyro Sensor
 void setupMPU(){
   Wire.beginTransmission(0b1101000); //Beginn Transmission to MPU I2C address
   Wire.write(0x6B); //open PWR_MGMT register
@@ -253,6 +252,7 @@ void setupMPU(){
   Wire.endTransmission();
 }
 
+// Calibrates the sensor
 void calibrateMPU(){
   recordGyroData();
   prevX = gyroX;
@@ -260,12 +260,12 @@ void calibrateMPU(){
   prevZ = gyroZ;
 }
 
-
+// Records the data and processes it
 void recordGyroData() {
-  Wire.beginTransmission(0b1101000); //I2C address of the MPU
-  Wire.write(0x43); //Starting register for Gyro Readings
+  Wire.beginTransmission(0b1101000);  //I2C address of the MPU
+  Wire.write(0x43);                   //Starting register for Gyro Readings
   Wire.endTransmission();
-  Wire.requestFrom(0b1101000,6); //Request Gyro Registers (43 - 48)
+  Wire.requestFrom(0b1101000,6);      //Request Gyro Registers (43 - 48)
   //while(Wire.available() < 6);
   gyroX = Wire.read()<<8|Wire.read(); //Store first two bytes into accelX
   gyroY = Wire.read()<<8|Wire.read(); //Store middle two bytes into accelY
