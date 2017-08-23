@@ -12,7 +12,6 @@ Servo leftRight;      // left-right
 Servo upDown;         // up-down
 
 // SENSORS
-// Nothing here yet
 long gyroX, gyroY, gyroZ;
 float rotX, rotY, rotZ;
 
@@ -99,7 +98,6 @@ void setup() {
   leftRight.attach(LR_PIN);
   upDown.attach(UD_PIN);
 
-  Serial.write("asdf");
   // Set up MPU
   setupMPU();
   Serial.write("setupped");
@@ -123,15 +121,20 @@ void setup() {
 // UPDATE
 void loop() {
   // Get information from the sensors
-  // Nothing here yet
   recordGyroData();
-  processGyroData();
-  Serial.write("processed");
-  if(prevX - rotX > 5 || prevX - rotX < -5 || prevY - rotY > 5 || prevY - rotY < -5 || prevZ - rotZ > 5 || prevZ - rotZ < -5){
+  //processGyroData();
+  //Serial.write("processed");
+  if(prevX - rotX > 5 || prevX - rotX < -5 || prevY - rotY > 5 || prevY - rotY < -5 || prevZ - rotZ > 5 || prevZ - rotZ < -5)
+  {
     prevX = rotX;
     prevY = rotY;
     prevZ = rotZ;
-    //serial Send info??
+    Serial.write(MPU_X_PREFIX);
+    Serial.write(int(rotX));
+    Serial.write(MPU_Y_PREFIX);
+    Serial.write(int(rotY));
+    Serial.write(MPU_Z_PREFIX);
+    Serial.write(int(rotZ));
   }
   // Process information from the sensors
   // Nothing here yet
@@ -263,12 +266,12 @@ void recordGyroData() {
   Wire.write(0x43); //Starting register for Gyro Readings
   Wire.endTransmission();
   Wire.requestFrom(0b1101000,6); //Request Gyro Registers (43 - 48)
-  while(Wire.available() < 6);
+  //while(Wire.available() < 6);
   gyroX = Wire.read()<<8|Wire.read(); //Store first two bytes into accelX
   gyroY = Wire.read()<<8|Wire.read(); //Store middle two bytes into accelY
   gyroZ = Wire.read()<<8|Wire.read(); //Store last two bytes into accelZ
   processGyroData();
-  Serial.write("processed");
+  //Serial.write("processed");
 }
 
 void processGyroData() {
