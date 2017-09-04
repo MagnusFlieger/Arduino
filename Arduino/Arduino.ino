@@ -91,6 +91,11 @@ const char FLIGHT_REC_OFF_CONFIRM   = 'o';
 
 //    Sending status reports
 const char STATUS_OK = 'A';
+const char STATUS_MOTOR_FAULT = 'C';
+const char STATUS_SENSOR_FAULT = 'D';
+const char STATUS_FLIGHT_REC_FAULT = 'E';
+const char STATUS_ARDUINO_FAULT = 'F';
+const char STATUS_UNKNOWN_FAULT = 'G';
 
 const int ITERATIONS_FOR_EACH_STATUS_REPORT = 100;
 
