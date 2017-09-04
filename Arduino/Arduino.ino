@@ -31,11 +31,12 @@ int prevZ = 0;
 
 int ByteReceived;   // store byte recieved via serial
 
-char statusReport = 'A'; // one-byte status report to controller
-
 bool stabilizingOn = false;       // stores wheter self-stabilizing is on.
 bool sensorReportingOn = false;   // stores whether the sensor reporting feature is on
 bool flightRecorderOn = false;    // stores whether the Arduino should record flight data
+
+char statusReport = 'A'; // one-byte status report to controller
+int iterationsSinceLastStatusReportSent = 0;
 
 bool batteryLow = false;
 bool batteryOk = true;
