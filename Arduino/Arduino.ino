@@ -38,6 +38,7 @@ bool flightRecorderOn = false;    // stores whether the Arduino should record fl
 char statusReport = 'A'; // one-byte status report to controller
 int iterationsSinceLastStatusReportSent = 0;
 
+bool everythingOk = true;
 bool batteryLow = false;
 bool batteryOk = true;
 bool motorOk = true;
@@ -87,6 +88,11 @@ const char SENSORS_ON_CONFIRM       = 'I';
 const char SENSORS_OFF_CONFIRM      = 'i';
 const char FLIGHT_REC_ON_CONFIRM    = 'O';
 const char FLIGHT_REC_OFF_CONFIRM   = 'o';
+
+//    Sending status reports
+const char STATUS_OK = 'A';
+
+const int ITERATIONS_FOR_EACH_STATUS_REPORT = 100;
 
 //   MPU constants
 const char MPU_POSITIVE_THRESHOLD   = 3;
@@ -204,7 +210,22 @@ void loop() {
   }
 
   // Send status to Serial
-  Serial.write(statusReport);
+  if ( everythingOk )
+  {
+    if ( iterationsSinceLastStatusReportSent > ITERATIONS_FOR_EACH_STATUS_REPORT )
+    {
+      Serial.write(STATUS_OK);
+      iterationsSinceLastStatusReportSent = 0;
+    }
+    else iterationsSinceLastStatusReportSent++;
+  }
+  else
+  {
+    if ( !batteryOk )
+    {
+      
+    }
+  }
 
   // Send sensor data to serial
   if ( sensorReportingOn )
