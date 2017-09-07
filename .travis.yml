@@ -8,8 +8,8 @@ before_install:
   - sudo mv arduino-1.6.5 /usr/local/share/arduino
   - sudo ln -s /usr/local/share/arduino/arduino /usr/local/bin/arduino
 install:
-  - ln -s $PWD /usr/local/share/arduino/libraries/Adafruit_FONA
-  - arduino --install-boards "arduino:avr:uno"
-  - arduino --install-library "Adafruit SleepyDog Library,Adafruit MQTT Library"
+  - arduino --install-boards arduino:avr:uno
+  - arduino --install-library Servo
+  - arduino --install-library Wire
 script:
   - arduino --board arduino:avr:uno --verify $PWD/examples/Arduino/Arduino.ino
