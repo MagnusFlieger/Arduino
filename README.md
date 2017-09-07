@@ -1,7 +1,7 @@
 # Arduino
 
 Dieses Projekt wird mit Travis Ci getestet. Mehr infos dazu
-[hier](https://learn.adafruit.com/continuous-integration-arduino-and-you/testing-your-project)
+[hier](https://learn.adafruit.com/continuous-integration-arduino-and-you/testing-your-project).
 
 Hier kommt der ganze Code rein, der später auf den **Arduino** geladen wird. 
 
