@@ -15,6 +15,11 @@ Servo upDown;         // up-down
 long gyroX, gyroY, gyroZ;
 float rotX, rotY, rotZ;
 
+//orientation of MPU
+int prevX = 0;
+int prevY = 0;
+int prevZ = 0;
+
 // VARIABLES
 // Default positions for servos
 int pos1 = 0;
@@ -22,12 +27,6 @@ int pos2 = 0;
 int pos3 = 0;
 int pos4 = 0;
 int pos5 = 0;
-
-//orientation of MPU
-
-int prevX = 0;
-int prevY = 0;
-int prevZ = 0;
 
 int ByteReceived;   // store byte recieved via serial
 
@@ -44,6 +43,12 @@ bool motorFault = true;
 bool servosFault = true;
 bool sensorsFault = true;
 bool arduinoFault = true;
+
+enum ledState {
+  off,
+  blinking,
+  on
+};
 
 // CONSTANTS
 
@@ -129,7 +134,7 @@ void setup() {
   upDown.write(pos5);
 
   // Set up LED
-  // Nothing here yet
+  pinMode(LED_PIN, OUTPUT);
 }
 
 // UPDATE
