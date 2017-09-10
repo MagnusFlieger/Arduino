@@ -1,6 +1,6 @@
 # Arduino
 
-[![Build Status](https://travis-ci.org/MagnusFlieger/Arduino.svg?branch=master)](https://travis-ci.org/MagnusFlieger/Arduino)
+[![Build Status](https://travis-ci.org/MagnusFlieger/Arduino.svg?branch=ArduinoCode)](https://travis-ci.org/MagnusFlieger/Arduino)
 
 Dieses Projekt wird mit Travis Ci getestet. Mehr infos dazu
 [hier](https://learn.adafruit.com/continuous-integration-arduino-and-you/testing-your-project).
