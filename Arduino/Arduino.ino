@@ -227,13 +227,22 @@ void loop() {
   {
     if ( batteryFault )
     {
-      
+      Serial.write(STATUS_UNKNOWN_FAULT);
     }
+    if ( motorFault )
+      Serial.write(STATUS_MOTOR_FAULT);
+    if ( servosFault )
+      Serial.write(STATUS_UNKNOWN_FAULT);
+    if ( sensorsFault )
+      Serial.write(STATUS_SENSOR_FAULT);
+    if ( arduinoFault )
+      Serial.write(STATUS_ARDUINO_FAULT);
   }
 
   // Send sensor data to serial if we activated this
   if ( sensorReportingOn )
   {
+    // Check if the values have changed much since the last iteration
     if( prevX - rotX > MPU_POSITIVE_THRESHOLD || prevX - rotX < MPU_NEGATIVE_THRESHOLD || 
         prevY - rotY > MPU_POSITIVE_THRESHOLD || prevY - rotY < MPU_NEGATIVE_THRESHOLD || 
         prevZ - rotZ > MPU_POSITIVE_THRESHOLD || prevZ - rotZ < MPU_NEGATIVE_THRESHOLD )
