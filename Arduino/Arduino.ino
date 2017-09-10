@@ -44,11 +44,13 @@ bool servosFault = true;
 bool sensorsFault = true;
 bool arduinoFault = true;
 
-enum ledState {
+enum ledStates {
   off,
   blinking,
   on
 };
+
+ledStates ledState = off;
 
 // CONSTANTS
 
@@ -210,10 +212,6 @@ void loop() {
         case EMERGENCY_COMMAND:
           // Emergency
           break;
-        default:
-          // if nothing else matches, do the default
-          // default is optional
-          break;
       }
     }
   }
@@ -271,7 +269,15 @@ void loop() {
   }
 
   // Update LEDs
-  // Nothing here yet
+  switch (ledState)
+  {
+    case off:
+      break;
+    case on:
+      break;
+    case blinking:
+      break;
+  }
 
   // Delay
   delay(LOOP_DELAY);
