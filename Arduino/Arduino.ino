@@ -55,6 +55,7 @@ ledStates ledState = off;
 // CONSTANTS
 
 const int LOOP_DELAY = 100;       // Delay of the loop cycle in milliseconds
+const int LED_BLINK_INTERVAL = 500; // Blink interval in milliseconds
 
 //   Pins
 const int LED_PIN       = 5;
@@ -272,9 +273,9 @@ void loop() {
   switch (ledState)
   {
     case off:
-      break;
+      digitalWrite(LED_PIN, LOW);
     case on:
-      break;
+      digitalWrite(LED_PIN, HIGH);
     case blinking:
       break;
   }
