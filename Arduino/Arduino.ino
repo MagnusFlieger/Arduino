@@ -39,11 +39,11 @@ int iterationsSinceLastStatusReportSent = 0;
 
 bool everythingOk = true;
 bool batteryLow = false;
-bool batteryOk = true;
-bool motorOk = true;
-bool servosOk = true;
-bool sensorsOk = true;
-bool arduinoOk = true;
+bool batteryFault = true;
+bool motorFault = true;
+bool servosFault = true;
+bool sensorsFault = true;
+bool arduinoFault = true;
 
 // CONSTANTS
 
@@ -89,12 +89,12 @@ const char FLIGHT_REC_ON_CONFIRM    = 'O';
 const char FLIGHT_REC_OFF_CONFIRM   = 'o';
 
 //    Sending status reports
-const char STATUS_OK = 'A';
-const char STATUS_MOTOR_FAULT = 'C';
-const char STATUS_SENSOR_FAULT = 'D';
-const char STATUS_FLIGHT_REC_FAULT = 'E';
-const char STATUS_ARDUINO_FAULT = 'F';
-const char STATUS_UNKNOWN_FAULT = 'G';
+const char STATUS_OK                = 'A';
+const char STATUS_MOTOR_FAULT       = 'C';
+const char STATUS_SENSOR_FAULT      = 'D';
+const char STATUS_FLIGHT_REC_FAULT  = 'E';
+const char STATUS_ARDUINO_FAULT     = 'F';
+const char STATUS_UNKNOWN_FAULT     = 'G';
 
 const int ITERATIONS_FOR_EACH_STATUS_REPORT = 100;
 
@@ -225,13 +225,13 @@ void loop() {
   }
   else
   {
-    if ( !batteryOk )
+    if ( batteryFault )
     {
       
     }
   }
 
-  // Send sensor data to serial
+  // Send sensor data to serial if we activated this
   if ( sensorReportingOn )
   {
     if( prevX - rotX > MPU_POSITIVE_THRESHOLD || prevX - rotX < MPU_NEGATIVE_THRESHOLD || 
@@ -297,9 +297,19 @@ void recordGyroData() {
   //Serial.write("processed");
 }
 
+// Processes the gyro values to rot
 void processGyroData() {
   rotX = gyroX / 131.0;
   rotY = gyroY / 131.0; 
   rotZ = gyroZ / 131.0;
 }
 
+void CalibrateMotor()
+{
+  // TODO
+}
+
+void ResetAndInitializeEverything()
+{
+  // TODO
+}
