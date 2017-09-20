@@ -216,14 +216,11 @@ void loop() {
           case EMERGENCY_COMMAND:
             // Emergency
             break;
-          }
-        }
-        else
-        {
-          ignoreNextByte = false;
-        }
-      }
-    }
+        } // End switch
+      } // End if !ignoreNextByte
+      else
+        ignoreNextByte = false;
+    } // End for loop
   }
 
   // Send status to Serial
