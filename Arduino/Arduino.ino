@@ -153,66 +153,75 @@ void loop() {
   {
     // Loop through all bytes available
     char Read = '0';
+    bool ignoreNextByte = false;
     for ( int currentByte = 0; currentByte < Serial.available(); currentByte++ )
     {
       Read = Serial.read();
-      switch (Read) 
+      if (!ignoreNextByte)
       {
-        // CONTROL SERVOS
-        case THROTTLE_PREFIX:
-          // Throttle
-          pos1 = Serial.peek();
-          throttle.write(pos1);
-          break;
-        case FRONT_PREFIX:
-          // Rotating Front
-          pos2 = Serial.peek();
-          rotatingFront.write(pos2);
-          break;
-        case BACK_PREFIX:
-          // Rotating Back
-          pos3 = Serial.peek();
-          rotatingBack.write(pos3);
-          break;
-        case LR_PREFIX:
-          // Left-Right
-          pos4 = Serial.peek();
-          leftRight.write(pos4);
-          break;
-        case UD_PREFIX:
-          // Up-Down
-          pos5 = Serial.peek();
-          upDown.write(pos5);
-          break;
-        
-        // OTHER COMMANDS
-        case RESET_COMMAND:
-          // Reset and initialize everything
-          break;
-        case STABILIZING_ON_COMMAND:
-          // Turn on Self-stabilizing
-          stabilizingOn = true;
-          Serial.write(STABILIZING_ON_CONFIRM);
-          break;
-        case STABILIZING_OFF_COMMAND:
-          // Turn off Self-stabilizing
-          stabilizingOn = false;
-          Serial.write(STABILIZING_OFF_CONFIRM);
-          break;
-        case SENSORS_ON_COMMAND:
-          // Turn on Sensor
-          sensorReportingOn = true;
-          Serial.write(SENSORS_ON_CONFIRM);
-          break;
-        case SENSORS_OFF_COMMAND:
-          // Turn off Sensor
-          sensorReportingOn = false;
-          Serial.write(SENSORS_OFF_CONFIRM);
-          break;
-        
-        case EMERGENCY_COMMAND:
-          // Emergency
-          break;
+        switch (Read) 
+        {
+          // CONTROL SERVOS
+          case THROTTLE_PREFIX:
+            // Throttle
+            pos1 = Serial.peek();
+            throttle.write(pos1);
+            break;
+          case FRONT_PREFIX:
+            // Rotating Front
+            pos2 = Serial.peek();
+            rotatingFront.write(pos2);
+            break;
+          case BACK_PREFIX:
+            // Rotating Back
+            pos3 = Serial.peek();
+            rotatingBack.write(pos3);
+            break;
+          case LR_PREFIX:
+            // Left-Right
+            pos4 = Serial.peek();
+            leftRight.write(pos4);
+            break;
+          case UD_PREFIX:
+            // Up-Down
+            pos5 = Serial.peek();
+            upDown.write(pos5);
+            break;
+          
+          // OTHER COMMANDS
+          case RESET_COMMAND:
+            // Reset and initialize everything
+            break;
+          case STABILIZING_ON_COMMAND:
+            // Turn on Self-stabilizing
+            stabilizingOn = true;
+            Serial.write(STABILIZING_ON_CONFIRM);
+            break;
+          case STABILIZING_OFF_COMMAND:
+            // Turn off Self-stabilizing
+            stabilizingOn = false;
+            Serial.write(STABILIZING_OFF_CONFIRM);
+            break;
+          case SENSORS_ON_COMMAND:
+            // Turn on Sensor
+            sensorReportingOn = true;
+            Serial.write(SENSORS_ON_CONFIRM);
+            break;
+          case SENSORS_OFF_COMMAND:
+            // Turn off Sensor
+            sensorReportingOn = false;
+            Serial.write(SENSORS_OFF_CONFIRM);
+            break;
+          
+          case EMERGENCY_COMMAND:
+            // Emergency
+            break;
+          }
+        }
+        else
+        {
+          ignoreNextByte = false;
+        }
       }
     }
   }
