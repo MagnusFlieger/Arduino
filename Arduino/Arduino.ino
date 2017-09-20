@@ -44,17 +44,19 @@ bool servosFault = true;
 bool sensorsFault = true;
 bool arduinoFault = true;
 
+// The individual LED states as an enum
 enum ledStates {
   off,
   blinking,
   on
 };
 
+// The current LED state
 ledStates ledState = off;
 
 // CONSTANTS
 
-const int LOOP_DELAY = 100;       // Delay of the loop cycle in milliseconds
+const int LOOP_DELAY = 100;         // Delay of the loop cycle in milliseconds
 const int LED_BLINK_INTERVAL = 500; // Blink interval in milliseconds
 
 //   Pins
@@ -65,9 +67,9 @@ const int BACK_PIN      = 11;
 const int LR_PIN        = 12;
 const int UD_PIN        = 13;
 
-//   Bytes
+//   Communication
 //    Recieving prefixes
-const char THROTTLE_PREFIX          = 'A';
+const char SPEED_PREFIX             = 'A';
 const char FRONT_PREFIX             = 'B';
 const char BACK_PREFIX              = 'C';
 const char LR_PREFIX                = 'D';
@@ -124,10 +126,8 @@ void setup() {
 
   // Set up MPU
   setupMPU();
-  //Serial.write("setupped");
   // Calibrate sensors
   calibrateMPU();
-  //Serial.write("calibrated");
 
   // Write default values to the servos
   throttle.write(pos1);
@@ -162,30 +162,35 @@ void loop() {
         switch (Read) 
         {
           // CONTROL SERVOS
-          case THROTTLE_PREFIX:
+        case SPEED_PREFIX:
             // Throttle
             pos1 = Serial.peek();
             throttle.write(pos1);
+            ignoreNextByte = true;
             break;
           case FRONT_PREFIX:
             // Rotating Front
             pos2 = Serial.peek();
             rotatingFront.write(pos2);
+            ignoreNextByte = true;
             break;
           case BACK_PREFIX:
             // Rotating Back
             pos3 = Serial.peek();
             rotatingBack.write(pos3);
+            ignoreNextByte = true;
             break;
           case LR_PREFIX:
             // Left-Right
             pos4 = Serial.peek();
             leftRight.write(pos4);
+            ignoreNextByte = true;
             break;
           case UD_PREFIX:
             // Up-Down
             pos5 = Serial.peek();
             upDown.write(pos5);
+            ignoreNextByte = true;
             break;
           
           // OTHER COMMANDS
@@ -329,6 +334,11 @@ void processGyroData() {
   rotX = gyroX / 131.0;
   rotY = gyroY / 131.0; 
   rotZ = gyroZ / 131.0;
+}
+
+void RespondToPing()
+{
+
 }
 
 void CalibrateMotor()
